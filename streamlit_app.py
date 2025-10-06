@@ -21,7 +21,7 @@ estímulo = st.sidebar.selectbox("Selecciona el estímulo visual", [
 # Menú lateral
 tipo_celda = st.sidebar.selectbox("Tipo de célula:", ["Centro ON / Periferia OFF", "Centro OFF / Periferia ON"])
 visualizacion = st.sidebar.selectbox("Modo de visualización:", ["Mapa 2D", "Mapa 3D", "Animación paso a paso","Comparación ON / OFF / Combinado"])
-velocidad = st.sidebar.slider("Velocidad de animación (segundos por paso):", 0.1, 1.0, 0.3) if visualizacion == "Animación paso a paso" else None
+velocidad = st.sidebar.slider("Velocidad de animación (segundos por paso):", 0.01,0.1, 1.0, 0.3, 0.5) if visualizacion == "Animación paso a paso" else None
 
 # Construcción de campos receptivos
 def construir_campo(tipo="ON"):
