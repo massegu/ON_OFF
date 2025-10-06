@@ -149,7 +149,7 @@ elif visualizacion == "Animación paso a paso":
 
     # Animación automática paso a paso
     for fila in range(imagen.shape[0]-4):
-    for col in range(imagen.shape[1]-4):
+        for col in range(imagen.shape[1]-4):
         act = aplicar_en_posicion(imagen, campo, fila, col)
         ax.clear()
         ax.imshow(imagen, cmap='gray')
