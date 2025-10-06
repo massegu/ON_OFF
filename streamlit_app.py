@@ -170,13 +170,16 @@ elif visualizacion == "Animación paso a paso":
             time.sleep(velocidad)
 
 elif visualizacion == "Comparación ON / OFF / Combinado":
-    
-    # Calcula activaciones por separado
+    # Construir campos ON y OFF
+    campo_on = construir_campo("ON")
+    campo_off = construir_campo("OFF")
+
+    # Calcular activaciones
     activaciones_on = calcular_activaciones(imagen, campo_on)
     activaciones_off = calcular_activaciones(imagen, campo_off)
     activaciones_comb = activaciones_on + activaciones_off
 
-    # Visualiza las tres matrices
+    # Visualizar
     fig_comp, axs = plt.subplots(1, 3, figsize=(22,6))
 
     axs[0].imshow(activaciones_on, cmap='Greens')
@@ -193,7 +196,6 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
 
     st.pyplot(fig_comp)
 
-    # Leyenda explicativa
     st.markdown("""
     <div style="padding: 1em; background-color: #f0f0f0; border-radius: 8px;">
     <b>🔍 Leyenda de colores:</b><br>
@@ -202,4 +204,5 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     🔥 <span style="color:orange;"><b>Inferno</b></span>: Activación combinada ON + OFF, que representa la codificación completa del contorno.
     </div>
     """, unsafe_allow_html=True)
+
 
