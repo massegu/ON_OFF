@@ -82,7 +82,7 @@ def calcular_activaciones(imagen, campo):
     return activaciones
 
 # Preparar datos
-imagen = generar_estimulo(modo)
+imagen = generar_estímulo(modo)
 campo = construir_campo("ON" if tipo_celda.startswith("Centro ON") else "OFF")
 # Campos ON y OFF para comparación combinada
 if visualizacion == "Comparación ON / OFF / Combinado":
