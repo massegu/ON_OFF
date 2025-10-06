@@ -150,18 +150,18 @@ elif visualizacion == "Animación paso a paso":
     # Animación automática paso a paso
     for fila in range(imagen.shape[0]-4):
         for col in range(imagen.shape[1]-4):
-        act = aplicar_en_posicion(imagen, campo, fila, col)
-        ax.clear()
-        ax.imshow(imagen, cmap='gray')
+            act = aplicar_en_posicion(imagen, campo, fila, col)
+            ax.clear()
+            ax.imshow(imagen, cmap='gray')
 
-        for i in range(5):
-            for j in range(5):
-                valor = campo[i, j]
-                if valor != 0:
-                    color = 'green' if valor > 0 else 'purple'
-                    alpha = abs(valor) / 6
-                    rect = plt.Rectangle((col + j, fila + i), 1, 1, color=color, alpha=alpha)
-                    ax.add_patch(rect)
+            for i in range(5):
+                for j in range(5):
+                    valor = campo[i, j]
+                    if valor != 0:
+                        color = 'green' if valor > 0 else 'purple'
+                        alpha = abs(valor) / 6
+                        rect = plt.Rectangle((col + j, fila + i), 1, 1, color=color, alpha=alpha)
+                        ax.add_patch(rect)
                 ax.text(col + j + 0.5, fila + i + 0.5, f"{valor:.0f}", ha='center', va='center', fontsize=6, color='white')
 
         ax.add_patch(plt.Rectangle((col, fila), 5, 5, fill=False, edgecolor='blue', linewidth=2))
