@@ -83,11 +83,9 @@ def calcular_activaciones(imagen, campo):
 # Preparar datos
 imagen = generar_estímulo(estímulo)
 campo = construir_campo("ON" if tipo_celda.startswith("Centro ON") else "OFF")
+    
 # Campos ON y OFF para comparación combinada
-if visualizacion == "Comparación ON / OFF / Combinado":
-    campo_on = construir_campo("ON")
-    campo_off = construir_campo("OFF")
-else:
+if visualizacion != "Comparación ON / OFF / Combinado":
     activaciones = calcular_activaciones(imagen, campo)
 
 # Visualización
@@ -167,6 +165,7 @@ elif visualizacion == "Animación paso a paso":
             time.sleep(velocidad)
 
 elif visualizacion == "Comparación ON / OFF / Combinado":
+    
     # Calcula activaciones por separado
     activaciones_on = calcular_activaciones(imagen, campo_on)
     activaciones_off = calcular_activaciones(imagen, campo_off)
