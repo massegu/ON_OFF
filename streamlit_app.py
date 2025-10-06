@@ -185,12 +185,12 @@ elif visualizacion == "Animación paso a paso":
                 alpha = abs(valor) / 6
                 rect = plt.Rectangle((col + j, fila + i), 1, 1, color=color, alpha=alpha)
                 ax.add_patch(rect)
-            #ax.text(col + j + 0.5, fila + i + 0.5, f"{valor:.0f}", ha='center', va='center', fontsize=6, color='white')
+            ax.text(col + j + 0.5, fila + i + 0.5, f"{valor:.0f}", ha='center', va='center', fontsize=6, color='white')
 
     # Borde azul y etiquetas
     ax.add_patch(plt.Rectangle((col, fila), 5, 5, fill=False, edgecolor='blue', linewidth=2))
-    ax.text(col + 2, fila + 2, etiqueta_centro, ha='center', va='center', fontsize=8, color='white', weight='bold')
-    ax.text(col + 2, fila + 0.5, etiqueta_periferia, ha='center', va='center', fontsize=7, color='white')
+    #ax.text(col + 2, fila + 2, etiqueta_centro, ha='center', va='center', fontsize=8, color='white', weight='bold')
+    #ax.text(col + 2, fila + 0.5, etiqueta_periferia, ha='center', va='center', fontsize=7, color='white')
 
     ax.set_title(f"Campo en ({fila},{col})")
     ax.axis('off')
