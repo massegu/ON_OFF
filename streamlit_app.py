@@ -169,46 +169,44 @@ elif visualizacion == "Animación paso a paso":
     """, unsafe_allow_html=True)
 
 elif visualizacion == "Comparación ON / OFF / Combinado":
-    # Construir campos ON y OFF
+    # Construir campos
     campo_on = construir_campo("ON")
     campo_off = construir_campo("OFF")
 
     # Calcular activaciones
-   
     activaciones_on = calcular_activaciones(imagen, campo_on)
     activaciones_off = calcular_activaciones(imagen, campo_off)
-    activaciones_comb = activaciones_on + activaciones_off
 
-# Evitar que todo se vea blanco: normalizar manualmente
-    max_abs = np.max(np.abs(activaciones_comb))
-    if max_abs == 0:
-        max_abs = 1  # evitar división por cero
+    # Normalizar cada mapa por separado
+    norm_on = activaciones_on / np.max(activaciones_on) if np.max(activaciones_on) != 0 else activaciones_on
+    norm_off = activaciones_off / np.max(activaciones_off) if np.max(activaciones_off) != 0 else activaciones_off
 
-# Visualizar
+    # Combinación ponderada
+    activaciones_comb = norm_on - norm_off  # contraste entre ON y OFF
+
+    # Visualizar
     fig_comp, axs = plt.subplots(1, 3, figsize=(22,6))
 
-    axs[0].imshow(activaciones_on, cmap='Greens', vmin=0, vmax=np.max(activaciones_on))
+    axs[0].imshow(norm_on, cmap='Greens')
     axs[0].set_title("🟩 Activación Centro ON / Periferia OFF")
     axs[0].axis('off')
 
-    axs[1].imshow(activaciones_off, cmap='Purples', vmin=0, vmax=np.max(activaciones_off))
+    axs[1].imshow(norm_off, cmap='Purples')
     axs[1].set_title("🟪 Activación Centro OFF / Periferia ON")
     axs[1].axis('off')
 
-    axs[2].imshow(activaciones_comb, cmap='seismic', vmin=-max_abs, vmax=max_abs)
-    axs[2].set_title("🔀 Activación combinada ON + OFF")
+    axs[2].imshow(activaciones_comb, cmap='bwr', vmin=-1, vmax=1)
+    axs[2].set_title("🔀 Activación combinada ON - OFF")
     axs[2].axis('off')
 
     st.pyplot(fig_comp)
 
     st.markdown("""
     <div style="padding: 1em; background-color: #f0f0f0; border-radius: 8px;">
-    <b>🔍 Leyenda de colores:</b><br>
-    🟩 <span style="color:green;"><b>Verde</b></span>: Activación de células <b>Centro ON / Periferia OFF</b>, que responden a incrementos de luz.<br>
-    🟪 <span style="color:purple;"><b>Morado</b></span>: Activación de células <b>Centro OFF / Periferia ON</b>, que responden a decrementos de luz.<br>
-    🔀 <span style="color:blue;"><b>Azul/Rojo</b></span>: Activación combinada ON + OFF. <b>Rojo</b> indica activación neta positiva, <b>azul</b> indica inhibición neta, y <b>blanco</b> representa equilibrio entre ambas respuestas.
+    <b>🔀 Interpretación del mapa combinado:</b><br>
+    🔴 <b>Rojo</b>: activación neta positiva (predomina ON)<br>
+    🔵 <b>Azul</b>: activación neta negativa (predomina OFF)<br>
+    ⚪ <b>Blanco</b>: equilibrio entre ambas respuestas<br>
+    Este mapa compara directamente la activación ON y OFF en cada región del estímulo, revelando zonas donde una domina sobre la otra.
     </div>
     """, unsafe_allow_html=True)
-
-
-
