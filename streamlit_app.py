@@ -160,11 +160,11 @@ elif visualizacion == "Animación paso a paso":
             time.sleep(velocidad)
 
   st.markdown("""
-<div style="padding: 1em; background-color: #f9f9f9; border-radius: 8px;">
-<b>📊 Interpretación de los valores:</b><br>
-✅ <b>Valores positivos</b>: indican una <span style="color:green;"><b>mayor activación</b></span> del campo receptivo en esa posición. La célula está respondiendo fuertemente al estímulo visual.<br>
-⚠️ <b>Valores negativos</b>: indican una <span style="color:red;"><b>inhibición o baja activación</b></span>. La célula no considera relevante esa región del estímulo.<br>
-🔁 Esta activación depende del tipo de célula (ON u OFF) y de cómo el campo receptivo se superpone con el patrón visual.
-</div>
-""", unsafe_allow_html=True)
+    <div style="padding: 1em; background-color: #f9f9f9; border-radius: 8px;">
+    <b>📊 Interpretación de los valores:</b><br>
+    ✅ <b>Valores positivos</b>: indican una <span style="color:green;"><b>mayor activación</b></span> del campo receptivo en esa posición. La célula está respondiendo fuertemente al estímulo visual.<br>
+    ⚠️ <b>Valores negativos</b>: indican una <span style="color:red;"><b>inhibición o baja activación</b></span>. La célula no considera relevante esa región del estímulo.<br>
+    🔁 Esta activación depende del tipo de célula (ON u OFF) y de cómo el campo receptivo se superpone con el patrón visual.
+    </div>
+    """, unsafe_allow_html=True)
 
