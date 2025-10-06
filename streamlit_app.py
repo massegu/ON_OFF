@@ -113,7 +113,6 @@ elif visualizacion == "Animación paso a paso":
     with col2:
         st.markdown("### Activación en cada paso")
         act_area = st.empty()
-        act_area.metric(label="Activación", value=f"{act:.1f}")
 
     st.markdown("""
     <div style="padding: 1em; background-color: #f9f9f9; border-radius: 8px;">
