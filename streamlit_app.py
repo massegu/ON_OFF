@@ -179,7 +179,7 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     activaciones_comb = activaciones_on + activaciones_off
 
     # Normalizar para visualización
-    vmax = np.max(np.abs([activaciones_on, activaciones_off, activaciones_comb]))
+    vmax = np.max(np.abs(activaciones_comb))
     vmin = -vmax
 
     # Visualizar
@@ -193,7 +193,7 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     axs[1].set_title("🟪 Activación Centro OFF / Periferia ON")
     axs[1].axis('off')
 
-    axs[2].imshow(activaciones_comb, cmap='inferno', vmin=vmin, vmax=vmax)
+    axs[2].imshow(activaciones_comb, cmap='seismic', vmin=-vmax, vmax=vmax)
     axs[2].set_title("🔥 Activación combinada ON + OFF")
     axs[2].axis('off')
 
