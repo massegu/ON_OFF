@@ -8,10 +8,20 @@ st.set_page_config(layout="wide")
 st.title("🧠 Simulación de campos receptivos ON y OFF")
 st.markdown("Explora cómo diferentes tipos de células responden a bordes y contornos visuales.")
 
+st.sidebar.header("🧠 Parámetros del estímulo")
+
+estímulo = st.sidebar.selectbox("Selecciona el estímulo visual", [
+    "Letra curva (C)",
+    "Barra vertical",
+    "Círculo",
+    "Cuadrado",
+    "Ruido aleatorio"
+])
+
 # Menú lateral
 modo = st.sidebar.selectbox("Tipo de estímulo:", ["Borde horizontal", "Letra curva (C)"])
 tipo_celda = st.sidebar.selectbox("Tipo de célula:", ["Centro ON / Periferia OFF", "Centro OFF / Periferia ON"])
-visualizacion = st.sidebar.selectbox("Modo de visualización:", ["Mapa 2D", "Mapa 3D", "Animación paso a paso"])
+visualizacion = st.sidebar.selectbox("Modo de visualización:", ["Mapa 2D", "Mapa 3D", "Animación paso a paso","Comparación ON / OFF / Combinado"])
 velocidad = st.sidebar.slider("Velocidad de animación (segundos por paso):", 0.1, 1.0, 0.3) if visualizacion == "Animación paso a paso" else None
 
 # Construcción de campos receptivos
@@ -27,15 +37,32 @@ def construir_campo(tipo="ON"):
     return campo
 
 # Estímulo visual
-def construir_estimulo(modo):
-    imagen = np.zeros((10,10))
-    if modo == "Borde horizontal":
-        imagen[5:] = 1
-    else:
-        imagen[2:8,2] = 1
-        imagen[2,2:7] = 1
-        imagen[7,2:7] = 1
-    return imagen
+def generar_estímulo(nombre, tamaño=(20, 20)):
+    img = np.zeros(tamaño)
+
+    if nombre == "Letra curva (C)":
+        img[5:15, 5] = 1
+        img[5, 5:12] = 1
+        img[15, 5:12] = 1
+
+    elif nombre == "Barra vertical":
+        img[:, tamaño[1]//2] = 1
+
+    elif nombre == "Círculo":
+        rr, cc = np.ogrid[:tamaño[0], :tamaño[1]]
+        centro = (tamaño[0]//2, tamaño[1]//2)
+        radio = 6
+        mascara = (rr - centro[0])**2 + (cc - centro[1])**2 <= radio**2
+        img[mascara] = 1
+
+    elif nombre == "Cuadrado":
+        img[6:14, 6:14] = 1
+
+    elif nombre == "Ruido aleatorio":
+        img = np.random.rand(*tamaño)
+
+    return img
+
 
 # Aplicar campo en posición
 def aplicar_en_posicion(imagen, campo, fila, col):
@@ -55,9 +82,14 @@ def calcular_activaciones(imagen, campo):
     return activaciones
 
 # Preparar datos
-imagen = construir_estimulo(modo)
+imagen = generar_estimulo(modo)
 campo = construir_campo("ON" if tipo_celda.startswith("Centro ON") else "OFF")
-activaciones = calcular_activaciones(imagen, campo)
+# Campos ON y OFF para comparación combinada
+if visualizacion == "Comparación ON / OFF / Combinado":
+    campo_on = construir_campo("ON")
+    campo_off = construir_campo("OFF")
+else:
+    activaciones = calcular_activaciones(imagen, campo)
 
 # Visualización
 if visualizacion == "Mapa 2D":
@@ -135,4 +167,36 @@ elif visualizacion == "Animación paso a paso":
             act_area.metric(label="Activación", value=f"{act:.1f}")
             time.sleep(velocidad)
 
+elif visualizacion == "Comparación ON / OFF / Combinado":
+    # Calcula activaciones por separado
+    activaciones_on = calcular_activaciones(imagen, campo_on)
+    activaciones_off = calcular_activaciones(imagen, campo_off)
+    activaciones_comb = activaciones_on + activaciones_off
+
+    # Visualiza las tres matrices
+    fig_comp, axs = plt.subplots(1, 3, figsize=(22,6))
+
+    axs[0].imshow(activaciones_on, cmap='Greens')
+    axs[0].set_title("🟩 Activación Centro ON / Periferia OFF")
+    axs[0].axis('off')
+
+    axs[1].imshow(activaciones_off, cmap='Purples')
+    axs[1].set_title("🟪 Activación Centro OFF / Periferia ON")
+    axs[1].axis('off')
+
+    axs[2].imshow(activaciones_comb, cmap='inferno')
+    axs[2].set_title("🔥 Activación combinada ON + OFF")
+    axs[2].axis('off')
+
+    st.pyplot(fig_comp)
+
+    # Leyenda explicativa
+    st.markdown("""
+    <div style="padding: 1em; background-color: #f0f0f0; border-radius: 8px;">
+    <b>🔍 Leyenda de colores:</b><br>
+    🟩 <span style="color:green;"><b>Verde</b></span>: Activación de células <b>Centro ON / Periferia OFF</b>, que responden a incrementos de luz.<br>
+    🟪 <span style="color:purple;"><b>Morado</b></span>: Activación de células <b>Centro OFF / Periferia ON</b>, que responden a decrementos de luz.<br>
+    🔥 <span style="color:orange;"><b>Inferno</b></span>: Activación combinada ON + OFF, que representa la codificación completa del contorno.
+    </div>
+    """, unsafe_allow_html=True)
 
