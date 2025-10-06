@@ -178,19 +178,23 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     activaciones_off = calcular_activaciones(imagen, campo_off)
     activaciones_comb = activaciones_on + activaciones_off
 
+    # Normalizar para visualización
+    vmax = np.max(np.abs([activaciones_on, activaciones_off, activaciones_comb]))
+    vmin = -vmax
+
     # Visualizar
     fig_comp, axs = plt.subplots(1, 3, figsize=(22,6))
 
-    axs[0].imshow(activaciones_on, cmap='Greens')
+    axs[0].imshow(activaciones_on, cmap='Greens', vmin=0, vmax=vmax)
     axs[0].set_title("🟩 Activación Centro ON / Periferia OFF")
     axs[0].axis('off')
 
-    axs[1].imshow(activaciones_off, cmap='Purples')
+    axs[1].imshow(activaciones_off, cmap='Purples', vmin=0, vmax=vmax)
     axs[1].set_title("🟪 Activación Centro OFF / Periferia ON")
     axs[1].axis('off')
 
-    axs[2].imshow(activaciones_comb, cmap='inferno')
-    axs[2].imshow(activaciones_comb, cmap='inferno', vmin=-np.max(np.abs(activaciones_comb)), vmax=np.max(np.abs(activaciones_comb)))
+    axs[2].imshow(activaciones_comb, cmap='inferno', vmin=vmin, vmax=vmax)
+    axs[2].set_title("🔥 Activación combinada ON + OFF")
     axs[2].axis('off')
 
     st.pyplot(fig_comp)
@@ -198,9 +202,10 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     st.markdown("""
     <div style="padding: 1em; background-color: #f0f0f0; border-radius: 8px;">
     <b>🔍 Leyenda de colores:</b><br>
-    🟩 <span style="color:green;"><b>Verde</b></span>: Activación de células <b>Centro ON / Periferia OFF</b>, que responden a incrementos de luz (bordes claros).<br>
-    🟪 <span style="color:purple;"><b>Morado</b></span>: Activación de células <b>Centro OFF / Periferia ON</b>, que responden a decrementos de luz (bordes oscuros).<br>
-    🔥 <span style="color:orange;"><b>Inferno</b></span>: Activación combinada ON + OFF, que representa la codificación completa del contorno visual.
+    🟩 <span style="color:green;"><b>Verde</b></span>: Activación de células <b>Centro ON / Periferia OFF</b>, que responden a incrementos de luz.<br>
+    🟪 <span style="color:purple;"><b>Morado</b></span>: Activación de células <b>Centro OFF / Periferia ON</b>, que responden a decrementos de luz.<br>
+    🔥 <span style="color:orange;"><b>Inferno</b></span>: Activación combinada ON + OFF, que representa la codificación completa del contorno visual. Las zonas más intensas indican coincidencia entre excitación ON y OFF.
     </div>
     """, unsafe_allow_html=True)
+
 
