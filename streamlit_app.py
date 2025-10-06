@@ -84,6 +84,15 @@ if visualizacion == "Mapa 2D":
 
     st.pyplot(fig)
 
+st.markdown("""
+<div style="padding: 1em; background-color: #f0f0f0; border-radius: 8px;">
+<b>🔍 Leyenda de colores:</b><br>
+🟩 <span style="color:green;"><b>Verde</b></span>: Activación de células <b>Centro ON / Periferia OFF</b>, que responden a incrementos de luz (bordes claros).<br>
+🟪 <span style="color:purple;"><b>Morado</b></span>: Activación de células <b>Centro OFF / Periferia ON</b>, que responden a decrementos de luz (bordes oscuros).<br>
+🔥 <span style="color:orange;"><b>Inferno</b></span>: Superposición combinada ON + OFF, que representa la codificación completa del contorno.
+</div>
+""", unsafe_allow_html=True)
+
 elif visualizacion == "Mapa 3D":
     x, y = np.meshgrid(np.arange(activaciones.shape[1]), np.arange(activaciones.shape[0]))
     fig3d = go.Figure(data=[go.Surface(z=activaciones, x=x, y=y, colorscale='Viridis')])
