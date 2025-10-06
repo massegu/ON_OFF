@@ -117,3 +117,4 @@ elif visualizacion == "Animación paso a paso":
             act_area.metric(label="Activación", value=f"{act:.1f}")
             time.sleep(velocidad)
 
+
