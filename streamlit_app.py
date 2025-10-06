@@ -162,10 +162,10 @@ elif visualizacion == "Animación paso a paso":
     st.markdown("""
     <div style="padding: 1em; background-color: #f9f9f9; border-radius: 8px;">
     <b>📊 Interpretación de los valores:</b><br>
- ✅ <b>Valores positivos</b>: indican una <span style="color:green;"><b>mayor activación</b></span> del campo receptivo en esa posición. La célula está respondiendo fuertemente al estímulo visual.<br>
- ⚠️ <b>Valores negativos</b>: indican una <span style="color:red;"><b>inhibición o baja activación</b></span>. La célula no considera relevante esa región del estímulo.<br>
- 🔁 Esta activación depende del tipo de célula (ON u OFF) y de cómo el campo receptivo se superpone con el patrón visual.<br>
- 📍 El recorrido paso a paso permite observar cómo cambia la respuesta celular según la posición del estímulo.
- </div>
- """, unsafe_allow_html=True)
+    ✅ <b>Valores positivos</b>: indican que el campo receptivo está <span style="color:green;"><b>activado</b></span> en esa posición. Esto significa que la superposición entre el estímulo visual y la estructura del campo (centro/periferia) genera una respuesta excitatoria neta. La célula considera relevante esa región del estímulo.<br><br>
+    ⚠️ <b>Valores negativos</b>: indican que el campo receptivo está <span style="color:red;"><b>inhibido</b></span> en esa posición. La superposición entre el estímulo y el campo genera una respuesta neta negativa, lo que sugiere que esa región del estímulo <b>reduce</b> la activación de la célula o no es significativa para ella.<br><br>
+    🔁 Esta activación depende del tipo de célula (ON u OFF) y de cómo el campo receptivo se desplaza sobre el estímulo. El modo paso a paso permite observar cómo cambia la respuesta en cada posición del barrido.
+    </div>
+    """, unsafe_allow_html=True)
+
 
