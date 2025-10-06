@@ -178,9 +178,9 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     activaciones_off = calcular_activaciones(imagen, campo_off)
     activaciones_comb = activaciones_on + activaciones_off
 
-    # Normalizar para visualización
-    vmax = np.max(np.abs(activaciones_comb))
-    vmin = -vmax
+    # Ajustar rango para contraste
+    vmax = np.max([np.max(activaciones_on), np.max(activaciones_off), np.max(activaciones_comb)])
+    vmin = np.min([np.min(activaciones_on), np.min(activaciones_off), np.min(activaciones_comb)])
 
     # Visualizar
     fig_comp, axs = plt.subplots(1, 3, figsize=(22,6))
@@ -193,8 +193,8 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     axs[1].set_title("🟪 Activación Centro OFF / Periferia ON")
     axs[1].axis('off')
 
-    axs[2].imshow(activaciones_comb, cmap='seismic', vmin=-vmax, vmax=vmax)
-    axs[2].set_title("🔥 Activación combinada ON + OFF")
+    axs[2].imshow(activaciones_comb, cmap='bwr', vmin=vmin, vmax=vmax)
+    axs[2].set_title("🔀 Activación combinada ON + OFF")
     axs[2].axis('off')
 
     st.pyplot(fig_comp)
@@ -204,8 +204,9 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     <b>🔍 Leyenda de colores:</b><br>
     🟩 <span style="color:green;"><b>Verde</b></span>: Activación de células <b>Centro ON / Periferia OFF</b>, que responden a incrementos de luz.<br>
     🟪 <span style="color:purple;"><b>Morado</b></span>: Activación de células <b>Centro OFF / Periferia ON</b>, que responden a decrementos de luz.<br>
-    🔥 <span style="color:orange;"><b>Inferno</b></span>: Activación combinada ON + OFF, que representa la codificación completa del contorno visual. Las zonas más intensas indican coincidencia entre excitación ON y OFF.
+    🔀 <span style="color:blue;"><b>Azul/Rojo</b></span>: Activación combinada ON + OFF. <b>Rojo</b> indica activación neta positiva, <b>azul</b> indica inhibición neta, y <b>blanco</b> representa equilibrio entre ambas respuestas.
     </div>
     """, unsafe_allow_html=True)
+
 
 
