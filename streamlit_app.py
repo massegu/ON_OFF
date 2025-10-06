@@ -190,7 +190,7 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     axs[1].axis('off')
 
     axs[2].imshow(activaciones_comb, cmap='inferno')
-    axs[2].set_title("🔥 Activación combinada ON + OFF")
+    axs[2].imshow(activaciones_comb, cmap='inferno', vmin=-np.max(np.abs(activaciones_comb)), vmax=np.max(np.abs(activaciones_comb)))
     axs[2].axis('off')
 
     st.pyplot(fig_comp)
