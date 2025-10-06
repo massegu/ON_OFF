@@ -111,7 +111,6 @@ if visualizacion == "Mapa 2D":
     axs[1].add_patch(circ)
     axs[1].grid(True)
     axs[1].axis('off')
-
     axs[2].imshow(activaciones, cmap='viridis')
     axs[2].set_title("Activación de múltiples células")
     axs[2].axis('off')
@@ -148,6 +147,14 @@ elif visualizacion == "Animación paso a paso":
         st.markdown("### Activación en cada paso")
         act_area = st.empty()
 
+    # 🧠 Etiquetas dinámicas según tipo de célula
+    if tipo_celda.startswith("Centro ON"):
+        etiqueta_centro = "Centro excitatorio"
+        etiqueta_periferia = "Periferia inhibitoria"
+    else:
+        etiqueta_centro = "Centro inhibitorio"
+        etiqueta_periferia = "Periferia excitatoria"
+
     st.markdown("""
     <div style="padding: 1em; background-color: #f9f9f9; border-radius: 8px;">
     <b>📊 Interpretación de los valores:</b><br>
@@ -157,17 +164,40 @@ elif visualizacion == "Animación paso a paso":
     </div>
     """, unsafe_allow_html=True)
 
-    for fila in range(imagen.shape[0]-4):
-        for col in range(imagen.shape[1]-4):
-            act = aplicar_en_posicion(imagen, campo, fila, col)
-            ax.clear()
-            ax.imshow(imagen, cmap='gray')
-            ax.add_patch(plt.Rectangle((col,fila),5,5,fill=False,edgecolor='blue',linewidth=2))
-            ax.set_title(f"Campo en ({fila},{col})")
-            ax.axis('off')
-            plot_area.pyplot(fig_anim)
-            act_area.metric(label="Activación", value=f"{act:.1f}")
-            time.sleep(velocidad)
+    # Slider para exploración manual
+    paso = st.slider("Paso de exploración:", 0, (imagen.shape[0]-5)*(imagen.shape[1]-5)-1, 0)
+
+    # Convertir paso en coordenadas fila/col
+    cols = imagen.shape[1] - 4
+    fila = paso // cols
+    col = paso % cols
+
+    act = aplicar_en_posicion(imagen, campo, fila, col)
+    ax.clear()
+    ax.imshow(imagen, cmap='gray')
+
+    # Superponer estructura interna del campo receptivo
+    for i in range(5):
+        for j in range(5):
+            valor = campo[i, j]
+            if valor != 0:
+                color = 'green' if valor > 0 else 'purple'
+                alpha = abs(valor) / 6
+                rect = plt.Rectangle((col + j, fila + i), 1, 1, color=color, alpha=alpha)
+                ax.add_patch(rect)
+            ax.text(col + j + 0.5, fila + i + 0.5, f"{valor:.0f}", ha='center', va='center', fontsize=6, color='white')
+
+    # Borde azul y etiquetas
+    ax.add_patch(plt.Rectangle((col, fila), 5, 5, fill=False, edgecolor='blue', linewidth=2))
+    ax.text(col + 2, fila + 2, etiqueta_centro, ha='center', va='center', fontsize=8, color='white', weight='bold')
+    ax.text(col + 2, fila + 0.5, etiqueta_periferia, ha='center', va='center', fontsize=7, color='white')
+
+    ax.set_title(f"Campo en ({fila},{col})")
+    ax.axis('off')
+    plot_area.pyplot(fig_anim)
+    act_area.metric(label="Activación", value=f"{act:.1f}")
+
+
 
 elif visualizacion == "Comparación ON / OFF / Combinado":
     # Construir campos ON y OFF
