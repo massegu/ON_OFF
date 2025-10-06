@@ -85,15 +85,20 @@ imagen = generar_estímulo(estímulo)
 campo = construir_campo("ON" if tipo_celda.startswith("Centro ON") else "OFF")
     
 # Campos ON y OFF para comparación combinada
-if visualizacion != "Comparación ON / OFF / Combinado":
+
+if visualizacion == "Comparación ON / OFF / Combinado":
+    campo_on = construir_campo("ON")
+    campo_off = construir_campo("OFF")
+else:
     activaciones = calcular_activaciones(imagen, campo)
+
 
 # Visualización
 if visualizacion == "Mapa 2D":
     fig, axs = plt.subplots(1, 3, figsize=(22,6))
 
     axs[0].imshow(imagen, cmap='gray')
-    axs[0].set_title(f"Estímulo visual: {modo}")
+    axs[0].set_title(f"Estímulo visual: {estímulo}")
     axs[0].axis('off')
 
     axs[1].imshow(campo, cmap='bwr', vmin=-6, vmax=6)
