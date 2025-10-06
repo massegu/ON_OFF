@@ -19,7 +19,6 @@ estímulo = st.sidebar.selectbox("Selecciona el estímulo visual", [
 ])
 
 # Menú lateral
-modo = st.sidebar.selectbox("Tipo de estímulo:", ["Borde horizontal", "Letra curva (C)"])
 tipo_celda = st.sidebar.selectbox("Tipo de célula:", ["Centro ON / Periferia OFF", "Centro OFF / Periferia ON"])
 visualizacion = st.sidebar.selectbox("Modo de visualización:", ["Mapa 2D", "Mapa 3D", "Animación paso a paso","Comparación ON / OFF / Combinado"])
 velocidad = st.sidebar.slider("Velocidad de animación (segundos por paso):", 0.1, 1.0, 0.3) if visualizacion == "Animación paso a paso" else None
@@ -82,7 +81,7 @@ def calcular_activaciones(imagen, campo):
     return activaciones
 
 # Preparar datos
-imagen = generar_estímulo(modo)
+imagen = generar_estímulo(estímulo)
 campo = construir_campo("ON" if tipo_celda.startswith("Centro ON") else "OFF")
 # Campos ON y OFF para comparación combinada
 if visualizacion == "Comparación ON / OFF / Combinado":
