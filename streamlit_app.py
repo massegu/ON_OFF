@@ -159,12 +159,48 @@ elif visualizacion == "Animación paso a paso":
             act_area.metric(label="Activación", value=f"{act:.1f}")
             time.sleep(velocidad)
 
-st.markdown("""
-<div style="padding: 1em; background-color: #f9f9f9; border-radius: 8px;">
-<b>📊 Interpretación de los valores:</b><br>
-✅ <b>Valores positivos</b>: indican una <span style="color:green;"><b>mayor activación</b></span> del campo receptivo en esa posición. La célula está respondiendo fuertemente al estímulo visual.<br>
-⚠️ <b>Valores negativos</b>: indican una <span style="color:red;"><b>inhibición o baja activación</b></span>. La célula no considera relevante esa región del estímulo.<br>
-🔁 Esta activación depende del tipo de célula (ON u OFF) y de cómo el campo receptivo se superpone con el patrón visual.
-</div>
+ st.markdown("""
+ <div style="padding: 1em; background-color: #f9f9f9; border-radius: 8px;">
+ <b>📊 Interpretación de los valores:</b><br>
+ ✅ <b>Valores positivos</b>: indican una <span style="color:green;"><b>mayor activación</b></span> del campo receptivo en esa posición. La célula está respondiendo fuertemente al estímulo visual.<br>
+ ⚠️ <b>Valores negativos</b>: indican una <span style="color:red;"><b>inhibición o baja activación</b></span>. La célula no considera relevante esa región del estímulo.<br>
+ 🔁 Esta activación depende del tipo de célula (ON u OFF) y de cómo el campo receptivo se superpone con el patrón visual.
+ </div>
+    """, unsafe_allow_html=True)
+
+elif visualizacion == "Comparación ON / OFF / Combinado":
+    # Construir campos ON y OFF
+    campo_on = construir_campo("ON")
+    campo_off = construir_campo("OFF")
+
+    # Calcular activaciones
+    activaciones_on = calcular_activaciones(imagen, campo_on)
+    activaciones_off = calcular_activaciones(imagen, campo_off)
+    activaciones_comb = activaciones_on + activaciones_off
+
+    # Visualizar
+    fig_comp, axs = plt.subplots(1, 3, figsize=(22,6))
+
+    axs[0].imshow(activaciones_on, cmap='Greens')
+    axs[0].set_title("🟩 Activación Centro ON / Periferia OFF")
+    axs[0].axis('off')
+
+    axs[1].imshow(activaciones_off, cmap='Purples')
+    axs[1].set_title("🟪 Activación Centro OFF / Periferia ON")
+    axs[1].axis('off')
+
+    axs[2].imshow(activaciones_comb, cmap='inferno')
+    axs[2].set_title("🔥 Activación combinada ON + OFF")
+    axs[2].axis('off')
+
+    st.pyplot(fig_comp)
+
+    st.markdown("""
+    <div style="padding: 1em; background-color: #f0f0f0; border-radius: 8px;">
+    <b>🔍 Leyenda de colores:</b><br>
+    🟩 <span style="color:green;"><b>Verde</b></span>: Activación de células <b>Centro ON / Periferia OFF</b>, que responden a incrementos de luz.<br>
+    🟪 <span style="color:purple;"><b>Morado</b></span>: Activación de células <b>Centro OFF / Periferia ON</b>, que responden a decrementos de luz.<br>
+    🔥 <span style="color:orange;"><b>Inferno</b></span>: Activación combinada ON + OFF, que representa la codificación completa del contorno.
+    </div>
     """, unsafe_allow_html=True)
 
