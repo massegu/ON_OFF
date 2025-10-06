@@ -164,18 +164,6 @@ elif visualizacion == "Animación paso a paso":
     </div>
     """, unsafe_allow_html=True)
 
-    # Slider para exploración manual
-    paso = st.slider("Paso de exploración:", 0, (imagen.shape[0]-5)*(imagen.shape[1]-5)-1, 0)
-
-    # Convertir paso en coordenadas fila/col
-    cols = imagen.shape[1] - 4
-    fila = paso // cols
-    col = paso % cols
-
-    act = aplicar_en_posicion(imagen, campo, fila, col)
-    ax.clear()
-    ax.imshow(imagen, cmap='gray')
-
     # Superponer estructura interna del campo receptivo
     for i in range(5):
         for j in range(5):
