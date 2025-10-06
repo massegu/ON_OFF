@@ -1,4 +1,5 @@
 streamlit
 matplotlib
+plotly
 numpy
 ipywidgets  # solo si usas widgets compatibles
