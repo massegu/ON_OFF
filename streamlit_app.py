@@ -162,7 +162,7 @@ elif visualizacion == "Animación paso a paso":
                         alpha = abs(valor) / 6
                         rect = plt.Rectangle((col + j, fila + i), 1, 1, color=color, alpha=alpha)
                         ax.add_patch(rect)
-                ax.text(col + j + 0.5, fila + i + 0.5, f"{valor:.0f}", ha='center', va='center', fontsize=6, color='white')
+                    ax.text(col + j + 0.5, fila + i + 0.5, f"{valor:.0f}", ha='center', va='center', fontsize=6, color='white')
 
         ax.add_patch(plt.Rectangle((col, fila), 5, 5, fill=False, edgecolor='blue', linewidth=2))
         ax.set_title(f"Campo en ({fila},{col})")
@@ -171,6 +171,14 @@ elif visualizacion == "Animación paso a paso":
         act_area.metric(label="Activación", value=f"{act:.1f}")
         time.sleep(velocidad)
 
+st.markdown("""
+<div style="padding: 1em; background-color: #f9f9f9; border-radius: 8px;">
+<b>📊 Interpretación de los valores:</b><br>
+✅ <b>Valores positivos</b>: indican una <span style="color:green;"><b>mayor activación</b></span> del campo receptivo en esa posición. La célula está respondiendo fuertemente al estímulo visual.<br>
+⚠️ <b>Valores negativos</b>: indican una <span style="color:red;"><b>inhibición o baja activación</b></span>. La célula no considera relevante esa región del estímulo.<br>
+🔁 Esta activación depende del tipo de célula (ON u OFF) y de cómo el campo receptivo se superpone con el patrón visual.
+</div>
+""", unsafe_allow_html=True)
 
 elif visualizacion == "Comparación ON / OFF / Combinado":
     # Construir campos ON y OFF
