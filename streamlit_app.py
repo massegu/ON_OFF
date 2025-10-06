@@ -174,26 +174,28 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     campo_off = construir_campo("OFF")
 
     # Calcular activaciones
+   
     activaciones_on = calcular_activaciones(imagen, campo_on)
     activaciones_off = calcular_activaciones(imagen, campo_off)
     activaciones_comb = activaciones_on + activaciones_off
 
-    # Ajustar rango para contraste
-    vmax = np.max([np.max(activaciones_on), np.max(activaciones_off), np.max(activaciones_comb)])
-    vmin = np.min([np.min(activaciones_on), np.min(activaciones_off), np.min(activaciones_comb)])
+# Evitar que todo se vea blanco: normalizar manualmente
+    max_abs = np.max(np.abs(activaciones_comb))
+    if max_abs == 0:
+        max_abs = 1  # evitar división por cero
 
-    # Visualizar
+# Visualizar
     fig_comp, axs = plt.subplots(1, 3, figsize=(22,6))
 
-    axs[0].imshow(activaciones_on, cmap='Greens', vmin=0, vmax=vmax)
+    axs[0].imshow(activaciones_on, cmap='Greens', vmin=0, vmax=np.max(activaciones_on))
     axs[0].set_title("🟩 Activación Centro ON / Periferia OFF")
     axs[0].axis('off')
 
-    axs[1].imshow(activaciones_off, cmap='Purples', vmin=0, vmax=vmax)
+    axs[1].imshow(activaciones_off, cmap='Purples', vmin=0, vmax=np.max(activaciones_off))
     axs[1].set_title("🟪 Activación Centro OFF / Periferia ON")
     axs[1].axis('off')
 
-    axs[2].imshow(activaciones_comb, cmap='bwr', vmin=vmin, vmax=vmax)
+    axs[2].imshow(activaciones_comb, cmap='seismic', vmin=-max_abs, vmax=max_abs)
     axs[2].set_title("🔀 Activación combinada ON + OFF")
     axs[2].axis('off')
 
