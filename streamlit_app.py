@@ -248,11 +248,11 @@ elif visualizacion == "Solo Bipolares":
 
     <br><span style="color:red;"><b>Este mecanismo de antagonismo espacial no está presente en las bipolares, por lo que su respuesta es más difusa y menos selectiva.</span> </b>
        <br><br>
-    <b>🔍 ¿Qué aporta el antagonismo espacial?</b><br>
-    <b> * Permite detectar bordes, contornos y transiciones de luminancia.</b><br>
-    <b> * Mejora la eficiencia del sistema visual, reduciendo redundancia.</b><br>
-    <b> * Facilita la codificación de formas y objetos, incluso en condiciones de iluminación variable.</b><br>
-    <br><b>En esta visualización, al mostrar solo el procesamiento bipolar, se observa una imagen suavizada, sin realce de bordes.<br> 
-    Esto ilustra cómo las ganglionares enriquecen la percepción visual al añadir contraste espacial.</b>
+    <b>🔍 ¿Qué aporta el antagonismo espacial?</b>
+    <br>
+    * Permite detectar bordes, contornos y transiciones de luminancia.<br>
+    * Mejora la eficiencia del sistema visual, reduciendo redundancia.<br>
+    * Facilita la codificación de formas y objetos, incluso en condiciones de iluminación variable.<br>
+    <br><b>En esta visualización, al mostrar solo el procesamiento bipolar, se observa una imagen suavizada, sin realce de bordes.<br> Esto ilustra cómo las ganglionares enriquecen la percepción visual al añadir contraste espacial.</b>
     </div>
     """, unsafe_allow_html=True)
