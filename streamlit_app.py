@@ -237,11 +237,18 @@ elif visualizacion == "Solo Bipolares":
     activacion_off = procesamiento_bipolar_off(imagen)
     
     # Normalizar ON y OFF
-    norm_on = activacion_on / np.max(np.abs(activacion_on)) if np.max(np.abs(activacion_on)) != 0 else activacion_on
-    norm_off = activacion_off / np.max(np.abs(activacion_off)) if np.max(np.abs(activacion_off)) != 0 else activacion_off
+    norm_on = activacion_on.copy()
+    norm_off = activacion_off.copy()
+
+    if np.max(np.abs(norm_on)) != 0:
+            norm_on = norm_on / np.max(np.abs(norm_on))
+
+    if np.max(np.abs(norm_off)) != 0:
+            norm_off = norm_off / np.max(np.abs(norm_off))
+
 
     # Contraste bipolar
-    contraste_bipolar = norm_on + norm_off
+    contraste_bipolar = norm_on - norm_off
 
     fig_bip, axs = plt.subplots(1, 4, figsize=(28,6))
 
@@ -258,8 +265,9 @@ elif visualizacion == "Solo Bipolares":
     axs[2].axis('off')
 
     axs[3].imshow(contraste_bipolar, cmap='bwr', vmin=-1, vmax=1)
-    axs[3].set_title("🔀 Contraste bipolar ON + OFF")
+    axs[3].set_title("🔀 Contraste bipolar ON - OFF")
     axs[3].axis('off')
+
 
     st.pyplot(fig_bip)
 
@@ -280,7 +288,6 @@ elif visualizacion == "Solo Bipolares":
      <br> Si el centro está oscuro y la periferia iluminada (Centro OFF), también se activa, pero con polaridad inversa.
     </div>
     """, unsafe_allow_html=True)
-
 
     st.markdown("""
     <div style="padding: 1em; background-color: #e8f4fc; border-radius: 8px;">
