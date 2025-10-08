@@ -19,7 +19,7 @@ estímulo = st.sidebar.selectbox("Selecciona el estímulo visual", [
 ])
 
 tipo_celda = st.sidebar.selectbox("Tipo de célula:", ["Centro ON / Periferia OFF", "Centro OFF / Periferia ON"])
-visualizacion = st.sidebar.selectbox("Modo de visualización:", ["Mapa 2D", "Mapa 3D", "Animación paso a paso", "Comparación ON / OFF / Combinado"])
+visualizacion = st.sidebar.selectbox("Modo de visualización:", ["Mapa 2D", "Mapa 3D", "Animación paso a paso", "Comparación ON / OFF / Combinado", "Solo Bipolares"])
 velocidad = st.sidebar.slider("Velocidad de animación (segundos por paso):", min_value=0.01, max_value=1.0, value=0.3, step=0.01) if visualizacion == "Animación paso a paso" else None
 
 # Construcción de campos receptivos
@@ -71,6 +71,17 @@ def calcular_activaciones(imagen, campo):
             if act is not None:
                 activaciones[fila+2, col+2] = act
     return activaciones
+
+# Solo Bipolares
+def procesamiento_bipolar(imagen):
+    # Simulación: respuesta local sin antagonismo
+    kernel = np.ones((5,5), np.float32) / 25
+    salida = np.zeros_like(imagen)
+    for fila in range(imagen.shape[0]-4):
+        for col in range(imagen.shape[1]-4):
+            sub = imagen[fila:fila+5, col:col+5]
+            salida[fila+2, col+2] = np.sum(sub * kernel)
+    return salida
 
 # Preparar datos
 imagen = generar_estímulo(estímulo)
@@ -208,5 +219,27 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     🔵 <b>Azul</b>: activación neta negativa (predomina OFF)<br>
     ⚪ <b>Blanco</b>: equilibrio entre ambas respuestas<br>
     Este mapa compara directamente la activación ON y OFF en cada región del estímulo, revelando zonas donde una domina sobre la otra.
+    </div>
+    """, unsafe_allow_html=True)
+
+elif visualizacion == "Solo Bipolares":
+    activacion_bipolar = procesamiento_bipolar(imagen)
+
+    fig_bip, axs = plt.subplots(1, 2, figsize=(16,6))
+    axs[0].imshow(imagen, cmap='gray')
+    axs[0].set_title(f"Estímulo visual: {estímulo}")
+    axs[0].axis('off')
+
+    axs[1].imshow(activacion_bipolar, cmap='cividis')
+    axs[1].set_title("🔎 Activación simulada de células bipolares")
+    axs[1].axis('off')
+
+    st.pyplot(fig_bip)
+
+    st.markdown("""
+    <div style="padding: 1em; background-color: #e8f4fc; border-radius: 8px;">
+    <b>🧠 Procesamiento bipolar:</b><br>
+    Las células bipolares responden de forma proporcional a la luminancia local, sin antagonismo espacial. Esta visualización muestra cómo se codifica la información visual si solo se procesara a nivel bipolar, sin la modulación centro ON / centro OFF de las ganglionares.<br><br>
+    🔹 <b>Resultado:</b> Imagen suavizada, sin realce de bordes ni contraste espacial. Ideal para comprender el papel de las ganglionares en la detección de contornos.
     </div>
     """, unsafe_allow_html=True)
