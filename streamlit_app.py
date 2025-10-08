@@ -253,6 +253,6 @@ elif visualizacion == "Solo Bipolares":
     * Permite detectar bordes, contornos y transiciones de luminancia.<br>
     * Mejora la eficiencia del sistema visual, reduciendo redundancia.<br>
     * Facilita la codificación de formas y objetos, incluso en condiciones de iluminación variable.<br>
-    <br><b>En esta visualización, al mostrar solo el procesamiento bipolar, se observa una imagen suavizada, sin realce de bordes.Esto ilustra cómo las ganglionares enriquecen la percepción visual al añadir contraste espacial.</b>
+    <br><b>En esta visualización, al mostrar solo el procesamiento bipolar, se observa una imagen suavizada, sin realce de bordes. Esto ilustra cómo las ganglionares enriquecen la percepción visual al añadir contraste espacial.</b>
     </div>
     """, unsafe_allow_html=True)
