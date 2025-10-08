@@ -241,7 +241,7 @@ elif visualizacion == "Solo Bipolares":
     <b>🧠 Procesamiento bipolar:</b><br>
     Las células bipolares responden de forma proporcional a la luminancia local, sin antagonismo espacial. Esta visualización muestra cómo se codifica la información visual si solo se procesara a nivel bipolar, sin la modulación centro ON / centro OFF de las ganglionares.<br><br>
     🔹 <b>Resultado:</b> Las células bipolares responden de forma proporcional a la luminancia local, es decir, transmiten la cantidad de luz que incide en cada punto de la retina sin realizar comparaciones con regiones vecinas.
-    <b> En cambio, las células ganglionares introducen antagonismo espacial, una propiedad clave que permite detectar contrastes y bordes.</b> 
+    <br><b> En cambio, las células ganglionares introducen antagonismo espacial, una propiedad clave que permite detectar contrastes y bordes.</b> 
     <b>Este antagonismo se basa en comparar la luz que llega al centro del campo receptivo con la que llega a la periferia:</b>
     <br> Si el centro está iluminado y la periferia oscura (Centro ON), la célula se activa. 
      <br> Si el centro está oscuro y la periferia iluminada (Centro OFF), también se activa, pero con polaridad inversa.
