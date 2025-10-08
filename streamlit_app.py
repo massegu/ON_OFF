@@ -83,6 +83,16 @@ def procesamiento_bipolar(imagen):
             salida[fila+2, col+2] = np.sum(sub * kernel)
     return salida
 
+def procesamiento_bipolar_off(imagen):
+    # Simulación inversa: respuesta a decrementos de luz
+    kernel = np.ones((5,5), np.float32) / 25
+    salida = np.zeros_like(imagen)
+    for fila in range(imagen.shape[0]-4):
+        for col in range(imagen.shape[1]-4):
+            sub = imagen[fila:fila+5, col:col+5]
+            salida[fila+2, col+2] = -np.sum(sub * kernel)  # inversión de polaridad
+    return salida
+
 # Preparar datos
 imagen = generar_estímulo(estímulo)
 campo = construir_campo("ON" if tipo_celda.startswith("Centro ON") else "OFF")
@@ -223,18 +233,34 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
     """, unsafe_allow_html=True)
 
 elif visualizacion == "Solo Bipolares":
-    activacion_bipolar = procesamiento_bipolar(imagen)
+    activacion_on = procesamiento_bipolar(imagen)
+    activacion_off = procesamiento_bipolar_off(imagen)
+    contraste_bipolar = activacion_on + activacion_off  # suma de polaridades
 
-    fig_bip, axs = plt.subplots(1, 2, figsize=(16,6))
-    axs[0].imshow(imagen, cmap='gray')
-    axs[0].set_title(f"Estímulo visual: {estímulo}")
+    fig_bip, axs = plt.subplots(1, 3, figsize=(22,6))
+    axs[0].imshow(activacion_on, cmap='Greens')
+    axs[0].set_title("🟩 Bipolares ON (responden a luz)")
     axs[0].axis('off')
 
-    axs[1].imshow(activacion_bipolar, cmap='cividis')
-    axs[1].set_title("🔎 Activación simulada de células bipolares")
+    axs[1].imshow(activacion_off, cmap='Purples')
+    axs[1].set_title("🟪 Bipolares OFF (responden a sombra)")
     axs[1].axis('off')
 
+    axs[2].imshow(contraste_bipolar, cmap='bwr', vmin=-1, vmax=1)
+    axs[2].set_title("🔀 Contraste bipolar ON + OFF")
+    axs[2].axis('off')
+
     st.pyplot(fig_bip)
+
+    st.markdown("""
+    <div style="padding: 1em; background-color: #e8f4fc; border-radius: 8px;">
+    <b>🧠 Comparativa de células bipolares:</b><br>
+    🔹 <b>ON</b>: activadas por incrementos de luz, codifican zonas iluminadas.<br>
+    🔸 <b>OFF</b>: activadas por decrementos de luz, codifican zonas en sombra.<br>
+    🔀 <b>Combinación ON + OFF</b>: permite detectar transiciones de luminancia, aunque sin el antagonismo espacial que aportan las ganglionares.<br><br>
+    ⚠️ Esta codificación es más difusa que la de las ganglionares, pero ya introduce una polaridad funcional que prepara el terreno para el contraste espacial.
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("""
     <div style="padding: 1em; background-color: #e8f4fc; border-radius: 8px;">
