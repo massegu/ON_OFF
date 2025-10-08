@@ -237,41 +237,47 @@ elif visualizacion == "Solo Bipolares":
     activacion_off = procesamiento_bipolar_off(imagen)
     contraste_bipolar = activacion_on + activacion_off  # suma de polaridades
 
-    fig_bip, axs = plt.subplots(1, 3, figsize=(22,6))
-    axs[0].imshow(activacion_on, cmap='Greens')
-    axs[0].set_title("🟩 Bipolares ON (responden a luz)")
+    fig_bip, axs = plt.subplots(1, 4, figsize=(28,6))
+
+    axs[0].imshow(imagen, cmap='gray')
+    axs[0].set_title(f"🎯 Estímulo visual: {estímulo}")
     axs[0].axis('off')
 
-    axs[1].imshow(activacion_off, cmap='Purples')
-    axs[1].set_title("🟪 Bipolares OFF (responden a sombra)")
+    axs[1].imshow(activacion_on, cmap='Greens')
+    axs[1].set_title("🟩 Bipolares ON (responden a luz)")
     axs[1].axis('off')
 
-    axs[2].imshow(contraste_bipolar, cmap='bwr', vmin=-1, vmax=1)
-    axs[2].set_title("🔀 Contraste bipolar ON + OFF")
+    axs[2].imshow(activacion_off, cmap='Purples')
+    axs[2].set_title("🟪 Bipolares OFF (responden a sombra)")
     axs[2].axis('off')
+
+    axs[3].imshow(contraste_bipolar, cmap='bwr', vmin=-1, vmax=1)
+    axs[3].set_title("🔀 Contraste bipolar ON + OFF")
+    axs[3].axis('off')
 
     st.pyplot(fig_bip)
 
     st.markdown("""
     <div style="padding: 1em; background-color: #e8f4fc; border-radius: 8px;">
-    <b>🧠 Comparativa de células bipolares:</b><br>
-    🔹 <b>ON</b>: activadas por incrementos de luz, codifican zonas iluminadas.<br>
-    🔸 <b>OFF</b>: activadas por decrementos de luz, codifican zonas en sombra.<br>
-    🔀 <b>Combinación ON + OFF</b>: permite detectar transiciones de luminancia, aunque sin el antagonismo espacial que aportan las ganglionares.<br><br>
+    <b>🧠 Comparativa de procesamiento bipolar:</b><br>
+    - <span style="color:green;"><b>ON</b></span>: activadas por incrementos de luz, codifican zonas iluminadas.<br>
+    - <span style="color:purple;"><b>OFF</b></span>: activadas por decrementos de luz, codifican zonas en sombra.<br>
+    - <span style="color:red;"><b>Combinación ON + OFF</b></span>: permite detectar transiciones de luminancia, aunque sin el antagonismo espacial que aportan las ganglionares.<br><br>
     ⚠️ Esta codificación es más difusa que la de las ganglionares, pero ya introduce una polaridad funcional que prepara el terreno para el contraste espacial.
-    </div>
-    """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div style="padding: 1em; background-color: #e8f4fc; border-radius: 8px;">
-    <b>🧠 Procesamiento bipolar:</b><br>
+      <b>🧠 Procesamiento bipolar:</b><br>
     Las células bipolares responden de forma proporcional a la luminancia local, sin antagonismo espacial. Esta visualización muestra cómo se codifica la información visual si solo se procesara a nivel bipolar, sin la modulación centro ON / centro OFF de las ganglionares.<br><br>
     🔹 <b>Resultado:</b> Las células bipolares responden de forma proporcional a la luminancia local, es decir, transmiten la cantidad de luz que incide en cada punto de la retina sin realizar comparaciones con regiones vecinas.
     <br><br><b> En cambio, las células ganglionares introducen antagonismo espacial, una propiedad clave que permite detectar contrastes y bordes.</b> 
     <b>Este antagonismo se basa en comparar la luz que llega al centro del campo receptivo con la que llega a la periferia:</b>
     <br> Si el centro está iluminado y la periferia oscura (Centro ON), la célula se activa. 
      <br> Si el centro está oscuro y la periferia iluminada (Centro OFF), también se activa, pero con polaridad inversa.
+    </div>
+    """, unsafe_allow_html=True)
 
+
+    st.markdown("""
+    <div style="padding: 1em; background-color: #e8f4fc; border-radius: 8px;">
     <br><span style="color:red;"><b>Este mecanismo de antagonismo espacial no está presente en las bipolares, por lo que su respuesta es más difusa y menos selectiva.</span> </b>
        <br><br>
     <b>🔍 ¿Qué aporta el antagonismo espacial?</b>
