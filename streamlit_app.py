@@ -240,6 +240,12 @@ elif visualizacion == "Solo Bipolares":
     <div style="padding: 1em; background-color: #e8f4fc; border-radius: 8px;">
     <b>🧠 Procesamiento bipolar:</b><br>
     Las células bipolares responden de forma proporcional a la luminancia local, sin antagonismo espacial. Esta visualización muestra cómo se codifica la información visual si solo se procesara a nivel bipolar, sin la modulación centro ON / centro OFF de las ganglionares.<br><br>
-    🔹 <b>Resultado:</b> Imagen suavizada, sin realce de bordes ni contraste espacial. Ideal para comprender el papel de las ganglionares en la detección de contornos.
+    🔹 <b>Resultado:</b> Las células bipolares responden de forma proporcional a la luminancia local, es decir, transmiten la cantidad de luz que incide en cada punto de la retina sin realizar comparaciones con regiones vecinas.<b> En cambio, las células ganglionares introducen antagonismo espacial, una propiedad clave que permite detectar contrastes y bordes.</b> 
+    <b>Este antagonismo se basa en comparar la luz que llega al centro del campo receptivo con la que llega a la periferia:</b>
+        Si el centro está iluminado y la periferia oscura (Centro ON), la célula se activa. </b> <b> Si el centro está oscuro y la periferia iluminada (Centro OFF), también se activa, pero con polaridad inversa.</b><b>Este mecanismo de antagonismo espacial no está presente en las bipolares, por lo que su respuesta es más difusa y menos selectiva.</b>
+    <b>🔍 ¿Qué aporta el antagonismo espacial?</b> <b>Permite detectar bordes, contornos y transiciones de luminancia.</b>
+    <b>Mejora la eficiencia del sistema visual, reduciendo redundancia.</b>
+    <b>Facilita la codificación de formas y objetos, incluso en condiciones de iluminación variable.</b>
+    <b>En esta visualización, al mostrar solo el procesamiento bipolar, se observa una imagen suavizada, sin realce de bordes.</b><b> Esto ilustra cómo las ganglionares enriquecen la percepción visual al añadir contraste espacial.</b>
     </div>
     """, unsafe_allow_html=True)
