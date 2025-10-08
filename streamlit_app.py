@@ -235,7 +235,13 @@ elif visualizacion == "Comparación ON / OFF / Combinado":
 elif visualizacion == "Solo Bipolares":
     activacion_on = procesamiento_bipolar(imagen)
     activacion_off = procesamiento_bipolar_off(imagen)
-    contraste_bipolar = activacion_on + activacion_off  # suma de polaridades
+    
+    # Normalizar ON y OFF
+    norm_on = activacion_on / np.max(np.abs(activacion_on)) if np.max(np.abs(activacion_on)) != 0 else activacion_on
+    norm_off = activacion_off / np.max(np.abs(activacion_off)) if np.max(np.abs(activacion_off)) != 0 else activacion_off
+
+    # Contraste bipolar
+    contraste_bipolar = norm_on + norm_off
 
     fig_bip, axs = plt.subplots(1, 4, figsize=(28,6))
 
@@ -243,11 +249,11 @@ elif visualizacion == "Solo Bipolares":
     axs[0].set_title(f"🎯 Estímulo visual: {estímulo}")
     axs[0].axis('off')
 
-    axs[1].imshow(activacion_on, cmap='Greens')
+    axs[1].imshow(norm_on, cmap='Greens')
     axs[1].set_title("🟩 Bipolares ON (responden a luz)")
     axs[1].axis('off')
 
-    axs[2].imshow(activacion_off, cmap='Purples')
+    axs[2].imshow(norm_off, cmap='Purples')
     axs[2].set_title("🟪 Bipolares OFF (responden a sombra)")
     axs[2].axis('off')
 
